@@ -7,10 +7,11 @@ import { HeartIcon } from "lucide-react";
 
 export const JobCard = () => {
   return (
-    <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out group hover:shadow-xl hover:-translate-y-2">
-      <Link href="#" className="absolute inset-0 z-10" prefetch={false}>
-        <span className="sr-only">View Job</span>
-      </Link>
+    <Link
+      href="#"
+      prefetch={false}
+      className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out group hover:shadow-xl hover:-translate-y-2 cursor-pointer"
+    >
       <div className="flex flex-col gap-4 bg-background p-6">
         <div className="flex items-center gap-x-4">
           <Image
@@ -46,6 +47,6 @@ export const JobCard = () => {
           <span className="sr-only">Favorite</span>
         </Button>
       </div>
-    </div>
+    </Link>
   );
 };

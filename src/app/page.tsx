@@ -1,7 +1,7 @@
 import { Hero } from "@/components/hero";
 import { JobList } from "@/components/job-list";
 
-export default function Home() {
+export default async function Home() {
   return (
     <main>
       <Hero />

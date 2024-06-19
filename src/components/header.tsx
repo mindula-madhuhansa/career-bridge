@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 export const Header = () => {
   return (
     <header>
-      <div className="flex items-center justify-between px-4 py-2.5 container mx-auto">
+      <div className="flex items-center justify-between max-w-4xl mx-auto p-4 lg:px-0 ">
         <Link href="/" className="text-xl font-bold">
           Career Bridge
         </Link>

@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.6.0",
     "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-radio-group": "^1.2.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@workos-inc/authkit-nextjs": "^0.6.1",
     "@workos-inc/node": "^7.10.0",
@@ -19,11 +19,10 @@
     "lucide-react": "^0.395.0",
     "next": "14.2.4",
     "react": "^18",
+    "react-country-state-city": "^1.1.2",
     "react-dom": "^18",
-    "react-hook-form": "^7.52.0",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "typescript": "^5",

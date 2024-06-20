@@ -22,7 +22,7 @@ export const Hero = () => {
         <Input
           type="text"
           placeholder="Search for jobs"
-          className="max-w-md border border-gray-300 rounded-md focus-visible:ring-0"
+          className="max-w-md border border-gray-300 rounded-md"
         />
         <Button variant="special" className="flex items-center">
           <SearchIcon className="size-4 mr-2" />

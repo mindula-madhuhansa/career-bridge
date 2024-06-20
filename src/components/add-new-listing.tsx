@@ -34,7 +34,7 @@ export const AddNewListing = () => {
         <Input
           name="companyName"
           placeholder="Company Name"
-          className="max-w-sm focus-visible:ring-0"
+          className="max-w-sm"
         />
         <Button disabled={loading} type="submit" variant="secondary">
           Create

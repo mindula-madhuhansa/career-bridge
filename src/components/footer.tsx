@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <footer className="bg-white p-6 md:py-12 w-full">
+    <footer className="relative bottom-0 bg-white p-6 md:py-12 w-full mt-16">
       <div className="container max-w-7xl flex flex-col items-center justify-between gap-4 md:flex-row">
         <p className="text-sm text-muted-foreground">
           &copy; 2024 Career Bridge. All rights reserved.

@@ -8,7 +8,7 @@ type Props = {
   user: User;
 };
 
-export const CompanyTag = async ({ user }: Props) => {
+export const CompanyList = async ({ user }: Props) => {
   const organizationMemberships =
     await workos.userManagement.listOrganizationMemberships({
       userId: user.id,

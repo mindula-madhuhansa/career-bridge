@@ -15,7 +15,7 @@ export const Header = async () => {
         </Link>
 
         <nav className="flex items-center space-x-2">
-          <Link href="/new-listing">
+          <Link href="/new-listing" prefetch={true}>
             <Button>Post a Job</Button>
           </Link>
 

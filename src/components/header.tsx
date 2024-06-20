@@ -8,14 +8,14 @@ export const Header = async () => {
   const signInUrl = await getSignInUrl();
 
   return (
-    <header>
-      <div className="flex items-center justify-between max-w-4xl mx-auto p-4 lg:px-0 ">
+    <header className="border-b-2 shadow-sm">
+      <div className="flex items-center justify-between max-w-5xl mx-auto p-4 lg:px-0 ">
         <Link href="/" className="text-xl font-bold">
           Career Bridge
         </Link>
 
         <nav className="flex items-center space-x-2">
-          <Link href="/new-job">
+          <Link href="/new-listing">
             <Button>Post a Job</Button>
           </Link>
 

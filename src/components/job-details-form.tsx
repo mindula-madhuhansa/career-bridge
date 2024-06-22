@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { saveJobToDB } from "@/actions/saveJobToDB";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -10,20 +13,35 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import { ImageUploader } from "@/components/image-uploader";
 import { LocationPicker } from "@/components/location-picker";
+import { Loader2Icon } from "lucide-react";
 
-export const JobDetailsForm = () => {
+export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
+  const router = useRouter();
+
+  const [loading, setLoading] = useState<boolean>(false);
   const [country, setCountry] = useState<option>(null);
   const [city, setCity] = useState<cityOption>(null);
   const [jobIconUrl, setJobIconUrl] = useState<string>("");
   const [personImgUrl, setPersonImgUrl] = useState<string>("");
 
-  const saveJob = (formData: FormData) => {
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
+  const handleSaveJob = async (formData: FormData) => {
+    formData.set("orgId", orgId);
+    setLoading(true);
+    try {
+      const jobDoc = await saveJobToDB(formData);
+      router.push(`/jobs/${jobDoc.orgId}`);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <form action={saveJob} className="max-w-5xl mx-auto flex flex-col gap-8">
+    <form
+      action={handleSaveJob}
+      className="max-w-5xl mx-auto flex flex-col gap-8"
+    >
       <div>
         <Label
           htmlFor="jobTitle"
@@ -118,7 +136,7 @@ export const JobDetailsForm = () => {
             Job Icon
           </Label>
           <ImageUploader
-            name="jobIcon"
+            name="jobIconUrl"
             url={jobIconUrl}
             setUrl={setJobIconUrl}
           />
@@ -131,7 +149,7 @@ export const JobDetailsForm = () => {
           <div className="flex gap-4">
             <div>
               <ImageUploader
-                name="personImg"
+                name="personImgUrl"
                 url={personImgUrl}
                 setUrl={setPersonImgUrl}
               />
@@ -179,7 +197,16 @@ export const JobDetailsForm = () => {
         />
       </div>
 
-      <Button type="submit">Save</Button>
+      <Button disabled={loading} type="submit">
+        {loading ? (
+          <div className="flex items-center gap-x-2">
+            <span className="animate-pulse">Saving</span>
+            <Loader2Icon className="size-4 animate-spin" />
+          </div>
+        ) : (
+          "Save & Publish"
+        )}
+      </Button>
     </form>
   );
 };

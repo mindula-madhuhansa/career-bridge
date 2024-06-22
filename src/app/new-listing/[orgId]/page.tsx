@@ -32,7 +32,7 @@ export default async function CompanyPage({ params }: Props) {
   return (
     <div className="mt-4 max-w-5xl mx-auto">
       <div className="p-4">
-        <JobDetailsForm />
+        <JobDetailsForm orgId={orgId} />
       </div>
     </div>
   );

@@ -7,4 +7,6 @@ export default authkitMiddleware({
   },
 });
 
-export const config = { matcher: ["/", "/new-listing", "/new-listing/:path*"] };
+export const config = {
+  matcher: ["/", "/new-listing", "/new-listing/:path*", "/jobs/:path*"],
+};

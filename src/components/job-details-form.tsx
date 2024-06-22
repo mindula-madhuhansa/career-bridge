@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Loader2Icon } from "lucide-react";
 
 import { saveJobToDB } from "@/actions/saveJobToDB";
 
@@ -13,7 +14,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import { ImageUploader } from "@/components/image-uploader";
 import { LocationPicker } from "@/components/location-picker";
-import { Loader2Icon } from "lucide-react";
 
 export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
   const router = useRouter();
@@ -24,10 +24,13 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
   const [jobIconUrl, setJobIconUrl] = useState<string>("");
   const [personImgUrl, setPersonImgUrl] = useState<string>("");
 
-  const handleSaveJob = async (formData: FormData) => {
-    formData.set("orgId", orgId);
+  const handleSaveJob = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setLoading(true);
+
     try {
+      const formData = new FormData(event.currentTarget);
+      formData.set("orgId", orgId);
       const jobDoc = await saveJobToDB(formData);
       router.push(`/jobs/${jobDoc.orgId}`);
     } catch (error) {
@@ -39,7 +42,7 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
 
   return (
     <form
-      action={handleSaveJob}
+      onSubmit={handleSaveJob}
       className="max-w-5xl mx-auto flex flex-col gap-8"
     >
       <div>

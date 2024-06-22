@@ -1,7 +1,8 @@
 "use server";
 
-import { JobModel } from "@/db/schema";
 import mongoose from "mongoose";
+
+import { JobModel } from "@/db/schema";
 
 export const saveJobToDB = async (formData: FormData) => {
   await mongoose.connect(process.env.MONGODB_URI!);

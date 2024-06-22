@@ -22,6 +22,7 @@ export default async function CompanyPage({ params }: Props) {
     userId,
     organizationId: orgId,
   });
+  const org = await workos.organizations.getOrganization(params.orgId);
 
   const hasAcces = oms.data.length > 0;
 
@@ -30,10 +31,11 @@ export default async function CompanyPage({ params }: Props) {
   }
 
   return (
-    <div className="mt-4 max-w-5xl mx-auto">
-      <div className="p-4">
-        <JobDetailsForm orgId={orgId} />
-      </div>
-    </div>
+    <>
+      <h1 className="text-2xl mb-8 font-medium">
+        {org.name} - New Job Listing
+      </h1>
+      <JobDetailsForm orgId={orgId} />
+    </>
   );
 }

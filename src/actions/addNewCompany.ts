@@ -1,8 +1,8 @@
 "use server";
 
-import { workos } from "@/lib/workos";
 import { getUser } from "@workos-inc/authkit-nextjs";
-import { revalidatePath } from "next/cache";
+
+import { workos } from "@/lib/workos";
 
 export const addNewCompany = async (formData: FormData) => {
   const { user } = await getUser();
@@ -27,5 +27,7 @@ export const addNewCompany = async (formData: FormData) => {
     roleSlug: "admin",
   });
 
-  revalidatePath("/new-listing");
+  return {
+    orgId: org.id,
+  };
 };

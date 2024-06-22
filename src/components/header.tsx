@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getSignInUrl, getUser, signOut } from "@workos-inc/authkit-nextjs";
 
 import { Button } from "@/components/ui/button";
+import { UserButton } from "@/components/user-button";
 
 export const Header = async () => {
   const { user } = await getUser();
@@ -15,19 +16,18 @@ export const Header = async () => {
         </Link>
 
         <nav className="flex items-center space-x-2">
-          <Link href="/new-listing" prefetch={true}>
-            <Button>Post a Job</Button>
-          </Link>
-
           {user ? (
-            <form
-              action={async () => {
-                "use server";
-                await signOut();
-              }}
-            >
-              <Button variant="outline">Sign Out</Button>
-            </form>
+            <>
+              <UserButton user={user} />
+              <form
+                action={async () => {
+                  "use server";
+                  await signOut();
+                }}
+              >
+                <Button variant="outline">Sign Out</Button>
+              </form>
+            </>
           ) : (
             <Link href={signInUrl}>
               <Button>Sign In</Button>

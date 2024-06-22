@@ -1,10 +1,10 @@
-import { LinkedinIcon, GitBranchIcon } from "lucide-react";
 import Link from "next/link";
+import { LinkedinIcon, GitBranchIcon } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="relative bottom-0 bg-white p-6 md:py-12 w-full mt-16">
-      <div className="container max-w-7xl flex flex-col items-center justify-between gap-4 md:flex-row">
+    <footer className="mt-8 bg-gray-100 p-6 md:py-12 w-full">
+      <div className="max-w-5xl mx-auto flex flex-col items-center justify-between md:flex-row gap-y-4">
         <p className="text-sm text-muted-foreground">
           &copy; 2024 Career Bridge. All rights reserved.
         </p>

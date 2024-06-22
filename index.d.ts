@@ -23,3 +23,28 @@ type cityOption = {
   };
   label: string;
 } | null;
+
+type orgOption = {
+  value: string;
+  label: string;
+} | null;
+
+interface Job {
+  _id: string;
+  orgId: string;
+  jobTitle: string;
+  locationType: string;
+  employmentType: string;
+  experienceLevel: string;
+  country: string;
+  city: string;
+  jobIconUrl: string;
+  personImgUrl: string;
+  contactName: string;
+  contactPhone: string;
+  contactEmail: string;
+  jobDescription: string;
+  createdAt: string;
+  updatedAt: string;
+  orgName?: string;
+}

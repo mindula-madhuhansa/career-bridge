@@ -20,7 +20,7 @@ export default function RootLayout({
         <Header />
 
         <main className="pt-8 bg-gray-50">
-          <div className="max-w-5xl mx-auto p-4 lg:p-0">{children}</div>
+          <div className="max-w-5xl mx-auto p-4 lg:p-0 lg:pb-4">{children}</div>
         </main>
 
         {/* <Footer /> */}

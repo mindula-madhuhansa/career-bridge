@@ -3,12 +3,18 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Organization } from "@workos-inc/node";
-import { ClipboardPlus, HousePlusIcon, UserIcon } from "lucide-react";
+import {
+  ClipboardPlus,
+  GitBranchIcon,
+  HousePlusIcon,
+  UserIcon,
+} from "lucide-react";
 
 import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { CreateNewJob } from "@/components/create-new-job";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -22,12 +28,10 @@ export const MenuItems = ({ orgs }: { orgs: Organization[] }) => {
   return (
     <DropdownMenuContent className="w-56">
       <DropdownMenuGroup>
-        <Link href="/dashboard">
-          <DropdownMenuItem className="flex items-center cursor-pointer">
-            <UserIcon className="mr-2 size-4" />
-            <span>Dashboard</span>
-          </DropdownMenuItem>
-        </Link>
+        <DropdownMenuItem className="flex items-center cursor-pointer">
+          <UserIcon className="mr-2 size-4" />
+          <span>Dashboard</span>
+        </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
           <Dialog
@@ -62,6 +66,12 @@ export const MenuItems = ({ orgs }: { orgs: Organization[] }) => {
               orgs={orgs}
             />
           </Dialog>
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="flex items-center cursor-pointer">
+          <GitBranchIcon className="mr-2 size-4" />
+          <span>Github</span>
         </DropdownMenuItem>
       </DropdownMenuGroup>
     </DropdownMenuContent>

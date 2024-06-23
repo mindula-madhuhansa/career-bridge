@@ -8,7 +8,7 @@ type Props = {
 export const JobList = async ({ header, jobs }: Props) => {
   if (jobs.length === 0) {
     return (
-      <section className="p-8 bg-gray-100 rounded-3xl">
+      <section className="p-8 bg-muted rounded-3xl">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-semibold text-gray-700">{header}</h2>
           <p className="mt-6 text-gray-600">No jobs found.</p>
@@ -18,7 +18,7 @@ export const JobList = async ({ header, jobs }: Props) => {
   }
 
   return (
-    <section className="p-8 bg-gray-100 rounded-3xl">
+    <section className="p-8 bg-muted rounded-3xl">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl font-semibold text-gray-700">{header}</h2>
 

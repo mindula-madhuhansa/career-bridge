@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2Icon, PlusCircleIcon } from "lucide-react";
 
@@ -24,7 +24,6 @@ type Props = {
 
 export const CreateNewOrganization = ({ open, setOpen }: Props) => {
   const router = useRouter();
-  const inputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -54,7 +53,6 @@ export const CreateNewOrganization = ({ open, setOpen }: Props) => {
 
       <form onSubmit={handleSubmit}>
         <Input
-          ref={inputRef}
           name="companyName"
           placeholder="Company Name"
           className="w-full"
@@ -67,7 +65,7 @@ export const CreateNewOrganization = ({ open, setOpen }: Props) => {
             </Button>
           </DialogClose>
           <Button
-            disabled={loading || !inputRef.current?.value}
+            disabled={loading}
             type="submit"
             variant="outline"
             className="border-primary text-primary hover:bg-primary hover:text-white"

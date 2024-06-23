@@ -12,11 +12,10 @@ export const deleteJob = async (jobId: string) => {
     await JobModel.deleteOne({
       _id: jobId,
     });
-
-    revalidatePath("/jobs");
   } catch (error) {
     console.error(error);
   } finally {
+    revalidatePath("/");
     await mongoose.connection.close();
   }
 };

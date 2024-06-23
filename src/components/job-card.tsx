@@ -2,38 +2,39 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { EditIcon, HeartIcon, HistoryIcon, Trash2Icon } from "lucide-react";
 
-import { calculateTimeAgo } from "@/lib/utils";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Tag } from "@/components/tag";
-import { Button } from "@/components/ui/button";
 import { deleteJob } from "@/actions/deleteJob";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Tag } from "@/components/tag";
+import TimeAgo from "@/components/time-ago";
+import { Button } from "@/components/ui/button";
+
 export const JobCard = ({ job }: { job: Job }) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleDeleteJob = async () => {
     try {
       await deleteJob(job._id);
     } catch (error) {
       console.error(error);
-    } finally {
-      setOpen(false);
     }
   };
 
   return (
-    <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out group hover:shadow-xl hover:-translate-y-2 cursor-pointer border">
+    <div className="relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 ease-in-out group hover:shadow-xl hover:-translate-y-0.5 cursor-pointer border">
       <div className="flex flex-col gap-4 bg-background p-6">
         <div className="flex items-center gap-x-4">
           <Image
@@ -44,9 +45,14 @@ export const JobCard = ({ job }: { job: Job }) => {
             className="border size-16 rounded-md object-contain"
           />
           <div className="flex-1 space-y-1">
-            <h3 className="text-base md:text-lg font-semibold">
-              {job.jobTitle}
-            </h3>
+            <div>
+              <h3
+                onClick={() => router.push(`/job/${job._id}`)}
+                className="text-base md:text-lg font-semibold  hover:underline"
+              >
+                {job.jobTitle}
+              </h3>
+            </div>
             <Link
               href={`/jobs/${job.orgId}`}
               className="text-sm md:text-base text-muted-foreground hover:underline"
@@ -67,51 +73,46 @@ export const JobCard = ({ job }: { job: Job }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <HistoryIcon className="size-3.5 mr-1.5" />
-            <span>Posted {calculateTimeAgo(job.createdAt)}</span>
+            <TimeAgo date={job.createdAt} />
           </div>
 
           {job.isAdmin && (
-            <div className="space-x-2">
-              <Link href={`/jobs/edit/${job._id}`} passHref>
-                <Button size="icon">
-                  <EditIcon className="size-4" />
-                  <span className="sr-only">Edit</span>
-                </Button>
-              </Link>
+            <div className="space-x-2 z-50">
+              <Button
+                size="icon"
+                onClick={() => {
+                  router.push(`/jobs/edit/${job._id}`);
+                }}
+              >
+                <EditIcon className="size-4" />
+                <span className="sr-only">Edit</span>
+              </Button>
 
-              <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
                   <Button variant="destructive" size="icon">
                     <Trash2Icon className="size-4" />
                     <span className="sr-only">Delete</span>
                   </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
                       This action cannot be undone. This will permanently delete
                       the job listing.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <Button
-                      variant="outline"
-                      type="button"
-                      onClick={() => setOpen(false)}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      type="button"
-                      onClick={handleDeleteJob}
-                    >
-                      Delete
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDeleteJob}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           )}
         </div>

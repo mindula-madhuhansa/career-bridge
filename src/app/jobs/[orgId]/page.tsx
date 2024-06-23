@@ -19,6 +19,7 @@ export default async function JobPage({ params }: Props) {
   await mongoose.connect(process.env.MONGODB_URI!);
 
   let jobs = JSON.parse(JSON.stringify(await JobModel.find({ orgId: org.id })));
+
   jobs = await addOrgAndUserData(jobs, user);
 
   return (

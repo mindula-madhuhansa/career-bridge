@@ -1,10 +1,10 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Loader2Icon } from "lucide-react";
 
 import { saveJobToDB } from "@/actions/saveJobToDB";
+import { searchCity, searchCountry } from "@/lib/utils";
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -15,14 +15,24 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ImageUploader } from "@/components/image-uploader";
 import { LocationPicker } from "@/components/location-picker";
 
-export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
-  const router = useRouter();
+type Props = {
+  orgId: string;
+  job?: Job;
+};
+
+export const JobDetailsForm = ({ orgId, job }: Props) => {
+  const countryDB = job?.country;
+  const countryOption = searchCountry(countryDB);
+  const cityDB = job?.city;
+  const cityOption = searchCity(countryOption, cityDB);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [country, setCountry] = useState<option>(null);
-  const [city, setCity] = useState<cityOption>(null);
-  const [jobIconUrl, setJobIconUrl] = useState<string>("");
-  const [personImgUrl, setPersonImgUrl] = useState<string>("");
+  const [country, setCountry] = useState<option>(countryOption || null);
+  const [city, setCity] = useState<cityOption>(cityOption || null);
+  const [jobIconUrl, setJobIconUrl] = useState<string>(job?.jobIconUrl || "");
+  const [personImgUrl, setPersonImgUrl] = useState<string>(
+    job?.personImgUrl || ""
+  );
 
   const handleSaveJob = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,8 +41,12 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
     try {
       const formData = new FormData(event.currentTarget);
       formData.set("orgId", orgId);
-      const jobDoc = await saveJobToDB(formData);
-      router.push(`/jobs/${jobDoc.orgId}`);
+
+      if (job) {
+        formData.set("jobId", job._id);
+      }
+
+      await saveJobToDB(formData);
     } catch (error) {
       console.error(error);
     } finally {
@@ -56,6 +70,7 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
           type="text"
           name="jobTitle"
           id="jobTitle"
+          defaultValue={job?.jobTitle || ""}
           placeholder="Enter job title"
         />
       </div>
@@ -65,7 +80,10 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
           <Label className="flex text-sm text-muted-foreground mb-2">
             Location type
           </Label>
-          <RadioGroup name="locationType" defaultValue="Onsite">
+          <RadioGroup
+            name="locationType"
+            defaultValue={job?.locationType || "Onsite"}
+          >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="Onsite" id="onsite" />
               <Label htmlFor="onsite">Onsite</Label>
@@ -85,7 +103,10 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
           <Label className="flex text-sm text-muted-foreground mb-2">
             Employment type
           </Label>
-          <RadioGroup name="employmentType" defaultValue="Full-time">
+          <RadioGroup
+            name="employmentType"
+            defaultValue={job?.employmentType || "Full-time"}
+          >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="Full-time" id="fullTime" />
               <Label htmlFor="fullTime">Full-time</Label>
@@ -105,7 +126,10 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
           <Label className="flex text-sm text-muted-foreground mb-2">
             Experience level
           </Label>
-          <RadioGroup name="experienceLevel" defaultValue="Entry-level">
+          <RadioGroup
+            name="experienceLevel"
+            defaultValue={job?.experienceLevel || "Entry-level"}
+          >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="Entry-level" id="entryLevel" />
               <Label htmlFor="entryLevel">Entry-level</Label>
@@ -123,17 +147,24 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
       </div>
 
       <div>
+        <Label className="flex text-sm text-muted-foreground mb-2">
+          Location
+        </Label>
         <LocationPicker
           selectedCountry={country}
           setSelectedCountry={setCountry}
           selectedCity={city}
           setSelectedCity={setCity}
         />
-        <input type="hidden" name="country" value={country?.label} />
-        <input type="hidden" name="city" value={city?.label} />
+        <input
+          type="hidden"
+          name="country"
+          defaultValue={country?.label || ""}
+        />
+        <input type="hidden" name="city" defaultValue={city?.label || ""} />
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <Label className="flex text-sm text-muted-foreground mb-2">
             Job Icon
@@ -145,7 +176,7 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
           />
         </div>
 
-        <div className="col-span-2">
+        <div className="md:col-span-2">
           <Label className="flex text-sm text-muted-foreground mb-2">
             Contact Details
           </Label>
@@ -162,6 +193,7 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
                 <Input
                   type="text"
                   name="contactName"
+                  defaultValue={job?.contactName || ""}
                   placeholder="Contact name"
                 />
               </div>
@@ -170,6 +202,7 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
                 <Input
                   type="tel"
                   name="contactPhone"
+                  defaultValue={job?.contactPhone}
                   placeholder="Contact phone number"
                 />
               </div>
@@ -178,6 +211,7 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
                 <Input
                   type="email"
                   name="contactEmail"
+                  defaultValue={job?.contactEmail}
                   placeholder="Contact email address"
                 />
               </div>
@@ -196,6 +230,7 @@ export const JobDetailsForm = ({ orgId }: { orgId: string }) => {
         <Textarea
           name="jobDescription"
           id="jobDescription"
+          defaultValue={job?.jobDescription || ""}
           placeholder="Enter job description"
         />
       </div>

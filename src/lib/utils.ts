@@ -1,5 +1,6 @@
-import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from "clsx";
+import { Country, City } from "country-state-city";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -36,4 +37,37 @@ export function calculateTimeAgo(inputDate: string): string {
     return minutes === 1 ? "1 minute ago" : `${minutes} minutes ago`;
   }
   return seconds === 1 ? "1 second ago" : `${seconds} seconds ago`;
+}
+
+const options = Country.getAllCountries().map((country) => ({
+  value: {
+    latitude: country.latitude,
+    longitude: country.longitude,
+    isoCode: country.isoCode,
+  },
+  label: country.name,
+}));
+
+export function searchCountry(country: string | undefined): option | undefined {
+  return options.find((option) => option.label === country);
+}
+
+export function searchCity(
+  country: option | undefined,
+  city: string | undefined
+): cityOption | undefined {
+  const cityOptions = City.getCitiesOfCountry(
+    country?.value.isoCode as string
+  )?.map((state) => ({
+    value: {
+      latitude: state.latitude!,
+      longitude: state.longitude!,
+      countryCode: state.countryCode,
+      name: state.name,
+      stateCode: state.stateCode,
+    },
+    label: state.name,
+  }));
+
+  return cityOptions?.find((option) => option.label === city);
 }

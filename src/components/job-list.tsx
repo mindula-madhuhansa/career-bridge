@@ -5,7 +5,7 @@ type Props = {
   jobs: Job[];
 };
 
-export const JobList = ({ header, jobs }: Props) => {
+export const JobList = async ({ header, jobs }: Props) => {
   if (jobs.length === 0) {
     return (
       <section className="p-8 bg-gray-100 rounded-3xl">

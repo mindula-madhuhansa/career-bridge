@@ -23,15 +23,18 @@ export const MenuItems = ({ orgs }: { orgs: Organization[] }) => {
     <DropdownMenuContent className="w-56">
       <DropdownMenuGroup>
         <Link href="/dashboard">
-          <DropdownMenuItem className="flex items-center">
+          <DropdownMenuItem className="flex items-center cursor-pointer">
             <UserIcon className="mr-2 size-4" />
             <span>Dashboard</span>
           </DropdownMenuItem>
         </Link>
 
         <DropdownMenuItem asChild>
-          <Dialog>
-            <DialogTrigger className="flex items-center">
+          <Dialog
+            open={isOpenNewCompanyDialog}
+            onOpenChange={setIsOpenNewCompanyDialog}
+          >
+            <DialogTrigger className="flex items-center w-full hover:bg-slate-100 px-2 py-1.5 transition-colors text-sm">
               <HousePlusIcon className="mr-2 size-4" />
               <span>New Company</span>
             </DialogTrigger>
@@ -44,8 +47,11 @@ export const MenuItems = ({ orgs }: { orgs: Organization[] }) => {
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
-          <Dialog>
-            <DialogTrigger className="flex items-center">
+          <Dialog
+            open={isOpenNewJobDialog}
+            onOpenChange={setIsOpenNewJobDialog}
+          >
+            <DialogTrigger className="flex items-center w-full hover:bg-slate-100 px-2 py-1.5 transition-colors text-sm">
               <ClipboardPlus className="mr-2 size-4" />
               <span>New Job</span>
             </DialogTrigger>

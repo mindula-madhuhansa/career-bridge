@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
+import { getUser } from "@workos-inc/authkit-nextjs";
 
 import { workos } from "@/lib/workos";
 import { JobModel } from "@/db/schema";
+import { addOrgAndUserData } from "@/lib/addOrgAndUserData";
+
 import { JobList } from "@/components/job-list";
 
 type Props = {
@@ -11,19 +14,16 @@ type Props = {
 };
 
 export default async function JobPage({ params }: Props) {
+  const { user } = await getUser();
   const org = await workos.organizations.getOrganization(params.orgId);
-
   await mongoose.connect(process.env.MONGODB_URI!);
-  const jobsDoc = await JobModel.find({ orgId: org.id });
 
-  for (const jobDoc of jobsDoc) {
-    const org = await workos.organizations.getOrganization(jobDoc.orgId);
-    jobDoc.orgName = org.name;
-  }
+  let jobs = JSON.parse(JSON.stringify(await JobModel.find({ orgId: org.id })));
+  jobs = await addOrgAndUserData(jobs, user);
 
   return (
     <>
-      <JobList header={`Jobs Posted by ${org.name}`} jobs={jobsDoc} />
+      <JobList header={`Jobs at ${org.name}`} jobs={jobs} />
     </>
   );
 }

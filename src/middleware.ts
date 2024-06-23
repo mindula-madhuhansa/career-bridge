@@ -3,16 +3,10 @@ import { authkitMiddleware } from "@workos-inc/authkit-nextjs";
 export default authkitMiddleware({
   middlewareAuth: {
     enabled: true,
-    unauthenticatedPaths: ["/"],
+    unauthenticatedPaths: ["/", "/jobs/:orgId*"],
   },
 });
 
 export const config = {
-  matcher: [
-    "/",
-    "/new-listing",
-    "/new-listing/:path*",
-    "/jobs/:path*",
-    "/dashboard",
-  ],
+  matcher: ["/", "/new-listing/:path*", "/dashboard", "/jobs/:path*"],
 };

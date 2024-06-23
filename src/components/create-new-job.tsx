@@ -39,14 +39,8 @@ export const CreateNewJob = ({ open, setOpen, orgs }: Props) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    try {
-      router.push(`/new-listing/${selectedOrganization?.value}`);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setOpen(false);
-    }
+    router.push(`/new-listing/${selectedOrganization?.value}`);
+    setOpen(false);
   };
 
   return (

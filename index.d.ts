@@ -47,4 +47,5 @@ interface Job {
   createdAt: string;
   updatedAt: string;
   orgName?: string;
+  isAdmin?: boolean;
 }
